@@ -1,0 +1,189 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{titlesec}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage[margin=1in]{geometry}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{varioref}
+\usepackage{fancyref}
+\usepackage{float}
+\floatstyle{boxed}
+\restylefloat{figure}
+\usepackage{framed}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{listings}
+\usepackage{color}
+
+\titleformat{\subsection}[runin]
+  {\normalfont\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}[runin]
+  {\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Script R%
+\usepackage{calligra}
+\DeclareMathAlphabet{\mathcalligra}{T1}{calligra}{m}{n}
+\DeclareFontShape{T1}{calligra}{m}{n}{<->s*[2.2]callig15}{}
+\newcommand{\scripty}[1]{\ensuremath{\mathcalligra{#1}}}
+\newcommand{\sr}{\scripty{r}}
+\newcommand{\vsr}{\vec{\sr\,}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Macros%
+\newcommand{\dint}[2]{\int\limits_{#1}^{#2}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\author{Alex Pizzuto}
+\title{CS 367 Homework 1}
+\begin{document}
+\date{}
+\maketitle
+\hrule
+
+\section{Question One}
+We desire code that will remove every other element, beginning with the first, from a \texttt{List<String>} object. We have been given the following code: 
+
+\begin{lstlisting}
+	for (int i = 1; i <= words.size(); i += 2) {
+	    words.remove(i); 
+	}
+\end{lstlisting}
+\subsection*{A}
+Suppose words initially contains:
+\begin{lstlisting}
+	[ "washington", "j. adams", "jefferson", "madison", "monroe", "j.q. adams", "jackson", "van buren" ]
+\end{lstlisting}
+Then after the code executes, we are left with 
+\begin{lstlisting}
+[ "washington", "jefferson", "madison",  "j.q. adams", "jackson" ]
+\end{lstlisting}
+
+\subsection*{B}
+This code does not work correctly. Java is zero-indexed, so the initialization condition should be \texttt{int i = 0} if we want to remove the first element in the list. Additionally, we should only be skipping one index at a time in the increment, so we should have \texttt{i +=1}, because once we remove an element, the elements higher in the list are shifted down an index. In other words, if at first our list is a list of ints, \texttt{myList = [1,2,3]}, then once we remove \texttt{myList[0]}, our new list is \texttt{myList = [2,3]}. Next we want to remove the element 3, which is now at index 1 instead of 0, so we need only increment by 1.
+
+\subsection*{C}
+Yes, the code is broken. Beyond just not functioning properly, as described in part (B), if a list with zero or one elements is passed to the code fragment, then we throw an \texttt{IndexOutOfBounds}. To fix the code, we should have: 
+\begin{lstlisting}
+	for (int i = 0; i <= words.size(); i += 1) {
+	    words.remove(i); 
+	}
+\end{lstlisting}
+
+
+\section{Question Two} 
+\subsection*{A}
+Suppose we have called \texttt{ArrayList.add} 200 times on a single list, and have never removed any of the added elements. How many times has the array been resized? How many more elements can we add (with no removals) without causing the array to resize again?
+If at first we have room to store 10 elements in the list, and each time we resize the list capacity triples, then after $n$ resizings, we have allotted enough room to store $10\times3^n$ elements. If we have called \texttt{ArrayList.add} 200 times on a single list, then we have resized 3 times ($10\rightarrow 30\rightarrow 90\rightarrow 270$). Thus, we have room to store another 70 elements before resizing again.
+\subsection*{B}
+$$i \times 3^d$$
+\subsection*{C}
+If we need a capacity of at least $c$ elements, and our initial capacity is $i$ elements, then we must triple until $ c < i\times 3^d$. In other words, $\log_3 (\frac{c}{i}) < d$. This is the same as saying we need $\log_3 (\frac{c}{i})/1 +1$ where division here is integer division, and the plus one is to ensure that our new capacity is larger than the needed capacity. 
+
+
+
+
+\section{Question Three}
+\subsection*{A}
+If \texttt{v1} is true and all other variables are false, then output would be 
+\begin{lstlisting}
+	main enter
+	a enter
+	b enter
+	b exit
+	a exit
+	c enter
+	d enter
+	main caught Exc1
+	main exit
+\end{lstlisting}
+
+\subsection*{B}
+If \texttt{v2} is true and all other variables are false, then output would be
+\begin{lstlisting}
+	main enter
+	a enter
+	b enter
+	Program terminated due to Exception Exc2
+\end{lstlisting}
+
+\subsection*{C}
+If \texttt{v3} is true and all other variables are false, then output would be
+\begin{lstlisting}
+	main enter
+	a enter
+	b enter
+	b exit
+	a exit
+	c enter
+	d enter
+	c caught Exc3
+	main caught Exc4
+	main exit
+\end{lstlisting}
+
+\subsection*{D}
+If \texttt{v4} is true and all other variables are false, then output would be
+\begin{lstlisting}
+	main enter
+	a enter
+	b enter
+	b exit
+	a exit
+	c enter
+	d enter
+	d exit
+	c caught Exc3
+	c exit
+	main caught Exc4
+	main exit
+\end{lstlisting}
+
+\subsection*{E}
+If \texttt{v1} and \texttt{v4} are true and all other variables are false, then output would be
+\begin{lstlisting}
+	main enter
+	a enter
+	b enter
+	b exit
+	a exit
+	c enter
+	d enter
+	main caught Exc1
+	main exit
+\end{lstlisting}
+
+\subsection*{F}
+If exception type \texttt{Exc2} were a checked exception, then you must include a throws clause in any method header where that Exception might be passed, in this case, in method a, b, and main.
+
+\subsection*{G}
+If exception type \texttt{Exc5} were a checked exception, then you must include a throws clause in any method header where that Exception might be passed, in this case, in method c, d, and main.
+
+
+\end{document}

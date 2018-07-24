@@ -1,0 +1,18 @@
+sa temp.txt
+d
+fo
+b
+j 10
+r
+fi abc
+u 10
+a image01.jpg
+r
+d
+fo
+b
+j 10
+r
+fi abc
+u 10
+q

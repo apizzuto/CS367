@@ -1,0 +1,310 @@
+/***********************************************************************
+File:             Questions.txt
+
+Author:           Alex Pizzuto
+
+Course:           CS 367, Spring 2018
+***********************************************************************/
+
+Directions: answer the following five (5) questions.
+
+
+1) Each sort algorithm is supposed to put the elements of the input
+array into ascending order.  How did you test your code to determine
+if it did this?
+
+Answer: I wrote a private static method that I called during my 
+debugging process when I ran all sorts. In the printstatistics 
+table, I added an output of "false" if the array was not in sorted 
+order, and I left the code that I used to check if it was in my
+ComparisonSort class, but it is reproduced here:
+
+private static <E extends Comparable<E>> boolean CheckSorted(E[] A) {
+    		boolean retBool = true;
+    		for (int i = 1; i < A.length; i++) {
+    			if (A[i].compareTo(A[i-1]) < 0) {
+    				retBool = false;
+    				//System.out.print(i + " ");
+    			}
+    		}
+    		return retBool;
+    	}
+    	
+When it did return false, I would test on small arrays and print
+out the array after I tried sorting to see if there was any 
+structure in the failed attempt. 
+
+
+2) In this question you will run TestSort four times using the
+parameters indicated in the table:
+
+    run 1: 50 54321
+    run 2: 500 54321
+    run 3: 5000 54321
+    run 4: 50000 54321
+
+What are the sort statistics for each of the runs?
+
+Answer:
+Run 1:
+Parameters used:
+  # items in input array: 50
+  random # seed: 54321
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+selection                        1,274            279              0
+insertion                          766            769              0
+merge                              270            572              0
+quick                              370            340              0
+heap                               462            714              0
+selection2                       1,024            141              0
+insertion2                         560            570              0
+
+Run 2:
+  # items in input array: 500
+  random # seed: 54321
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+selection                      125,249          3,870              5
+insertion                       59,910         59,914              3
+merge                            4,366          8,976              1
+quick                            4,868          4,580              1
+heap                             7,925         12,159              1
+selection2                      94,624          1,464              3
+insertion2                      43,133         43,219              3
+
+Run 3:
+Parameters used:
+  # items in input array: 5000
+  random # seed: 54321
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+selection                   12,502,499         50,346            105
+insertion                    6,269,881      6,269,887             78
+merge                           60,173        123,616              3
+quick                           71,841         57,783              5
+heap                           112,659        171,162              7
+selection2                   9,383,749         14,973            176
+insertion2                   4,121,329      4,122,573             79
+
+Run 4:
+Parameters used:
+  # items in input array: 50000
+  random # seed: 54321
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+selection                1,250,024,999        619,833          3,444
+insertion                  628,016,936    628,016,945          5,870
+merge                          768,307      1,568,928             48
+quick                          907,966        692,992             69
+heap                         1,460,012      2,212,560             57
+selection2                 937,587,499        149,961          4,752
+insertion2                 417,592,149    417,604,910          4,103
+
+
+3) In this question you again will run TestSort four times using the
+parameters indicated in the table:
+
+    run 5: 2000 12345
+    run 6: 2000 12345
+    run 7: 2000 12345
+    run 8: 2000 12345
+
+What are the sort statistics for each of the runs?
+
+Answer:
+Run 5:
+Parameters used:
+  # items in input array: 2000
+  random # seed: 12345
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+selection                    2,000,999         18,674             23
+insertion                      991,073        991,080             38
+merge                           21,401         43,904              3
+quick                           24,104         21,456              5
+heap                            39,686         60,495              2
+selection2                   1,503,499          5,982             36
+insertion2                     683,410        683,857             21
+
+Run 6:
+Parameters used:
+  # items in input array: 2000
+  random # seed: 12345
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+selection                    2,000,999         18,674             38
+insertion                      991,073        991,080             38
+merge                           21,401         43,904              3
+quick                           24,104         21,456              4
+heap                            39,686         60,495              3
+selection2                   1,503,499          5,982             41
+insertion2                     683,410        683,857             25
+
+Run 7: 
+Parameters used:
+  # items in input array: 2000
+  random # seed: 12345
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+selection                    2,000,999         18,674            185
+insertion                      991,073        991,080             92
+merge                           21,401         43,904              4
+quick                           24,104         21,456              8
+heap                            39,686         60,495              2
+selection2                   1,503,499          5,982            212
+insertion2                     683,410        683,857             38
+
+Run 8:
+Parameters used:
+  # items in input array: 2000
+  random # seed: 12345
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+selection                    2,000,999         18,674             26
+insertion                      991,073        991,080             52
+merge                           21,401         43,904              2
+quick                           24,104         21,456              4
+heap                            39,686         60,495              2
+selection2                   1,503,499          5,982             53
+insertion2                     683,410        683,857             59
+
+
+4) In this question you will run TestSort three times using the
+parameters indicated in the table:
+
+    run  9: 6000 36714
+    run 10: 6000 36714
+    run 11: 6000 36714
+
+- For run 9 you will use the TestSort program as originally written.
+
+- For run 10 you will modify the TestSort program so that instead of
+  creating an input array of random integers, it creates an input
+  array that is already in ascending order.  The easiest way to do
+  this is to replace the line:
+
+      arr[k] = new SortObject(random.nextInt());
+
+  with the line:
+
+      arr[k] = new SortObject(k);
+
+- For run 11 you will modify the TestSort program so that it creates
+  an input array that is already in descending order. The easiest way
+  to do this is to replace the line:
+
+      arr[k] = new SortObject(random.nextInt());
+
+  with the line:
+
+      arr[k] = new SortObject(arrSize - k);
+
+What are the sort statistics for each of the runs?
+
+Answer:
+Run 9:
+Parameters used:
+  # items in input array: 6000
+  random # seed: 36714
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+selection                   18,002,999         62,553            110
+insertion                    9,073,992      9,074,001            104
+merge                           73,832        151,616              5
+quick                           83,173         70,946              5
+heap                           138,375        210,306              6
+selection2                  13,510,499         17,973            188
+insertion2                   6,030,548      6,032,062            192
+
+Run 10:
+Parameters used:
+  # items in input array: 6000
+  random # seed: 36714
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+selection                   18,002,999         18,000            100
+insertion                       11,998         11,998              1
+merge                           45,151        151,616              3
+quick                           73,914         14,329              3
+heap                           143,875        224,487              4
+selection2                  13,510,499              0             71
+insertion2                      14,997          5,998              1
+
+Run 11:
+Parameters used:
+  # items in input array: 6000
+  random # seed: 36714
+algorithm                data compares     data moves   milliseconds
+---------                -------------     ----------   ------------
+selection                   18,002,999      9,018,000            121
+insertion                   18,002,999     18,008,998            177
+merge                           42,655        151,616              4
+quick                          110,983         47,472              3
+heap                           132,919        196,797             13
+selection2                  13,510,499          9,000            131
+insertion2                      14,997         14,998              0
+
+
+
+5) Briefly analyze your results from questions 2, 3, and 4.  Your
+analysis should consider the following:
+
+    - Are your results are consistent with the complexities of the
+      sorting algorithms (as derived in class)?
+
+    - How does the size of the input array affect a sort's performance
+      relative to other sorts?
+
+    - How does the order of values in the input array (runs 9-11) affect
+      a sort's performance relative to other sorts?
+
+    - Which of the statistics (compares, data moves, time) provides
+      the most useful information for determining the efficiency of a
+      sort?
+
+You should back up your analysis with examples and specific references
+to your results.
+
+Answer:
+Overall, my results are consistent with the complexities of the 
+sorting algorithms. While we only calculated orders for the scaling,
+we cannot explicitly check to see if each time complexity is correct
+independently, we can compare patterns for iterations of different size.
+By this, I mean, when we change the problem size (reduce it by a factor of
+25) from question 2 to question 3, we see the selection sort scale by ~factor
+of 600 (25^2) for data compares, which is consistent, and we see the insertion
+scale similarly. Additionally for insertion, we see that in question 4, when the 
+array is already sorted, the problem is just O(N). For the merge, quick, and 
+heap sorts, they also scale as we expect they should, as when we change the problem 
+size from question 3 to 4, the complexities in both compares and data moves 
+scales by about a factor of 3.5, which is consistent with an O(NlogN scaling).
+The size of the input array affects certain sorts' performances more than others.
+Looking mainly at the iterations in question 2, as we increased the array 
+size by orders of magnitude, the number of data compares increased by two
+decades in log space (ie scaling quadratically), while the merge, quick, 
+and heap sorts only increased the number of compares by about a factor of 10 each
+time.
+Order also can affect some sorting performance. For selection sort, it does not
+matter, selection2 sort scales similarly, though is somewhat quicker. 
+The sort will still make every single comparison, it just won't move
+as many things. For insertion sort, if the array is already sorted, the
+sort is much faster (O(N)), while if it is unsorted or sorted backwards, it
+is O(N^2). For insertion2, it is quicker, and just as quick when the array is backwards.
+For merge sort, the number of data compares decreases if there is 
+structure in the initial array, but the number of data moves is fairly constant,
+and the structure does not save much in terms of complexity. For quick sort, an
+already sorted array is dealt with much quicker, and is only O(N), though 
+even in worst case the sort is only O(NlogN). For heap sort, it is fairly
+immune to whether or not the array is sorted or unsorted. All of these claims 
+were made by comparing runs 9-11.
+I believe data compares is the most valuable proxy for understanding 
+complexity. Data compares tells you how many operations the processor 
+must complete, while data moves can be misleading. For example, selection2 sort
+in runs 10 and 11 seems quick if you look at data moves (0 or 9000), when in actuality
+it had to do around 13million operations, and took just as long as the other
+slow sorts. Time is not a great comparison because it is machine dependent, but
+it can be helpful when comparing performance with different sorts on the same
+machine if there is nothing going on in the background and the computer is 
+designating the same amount of memory to each sort. 
+

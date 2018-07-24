@@ -1,0 +1,53 @@
+h
+sa
+sa LoopImage.txt
+a image01.jpg
+sa LoopImage.txt
+sa LoopImage.txt
+l
+l RamdonImageFile.txt
+l LoopImage.txt
+d
+fo
+fo
+fo
+d
+b
+b
+b
+d
+a image02.jpg
+a image03.jpg
+j 1
+j 10
+j -10
+j -1
+d
+f
+f
+d
+b
+b
+d
+r
+r
+r
+r
+r
+a image01.jpg
+a image02.jpg
+a image03.jpg
+i image04.jpg
+i image05.jpg
+i image06.jpg
+fi 02
+fi image
+fi image
+fi image
+fi test
+u 100
+u -10
+sa Temp.txt
+l Temp.txt
+d
+q

@@ -1,0 +1,35 @@
+sa
+sa b@dfilename
+sa bad filename
+sa   ok_filename
+l
+l b@dfilename
+l bad filename
+l   ok_filename
+a
+a b@d.image
+a bad image
+a   _.ok._
+sa
+sa b@dfilename
+sa bad filename
+sa   ok_filename
+j
+j ten
+j   10
+j   -10
+u
+u ten
+u 0
+u -1
+u    1
+i
+i b@d.image
+i bad image
+i   __..ok..__
+fi
+fi b@d
+fi bad search
+fi   a
+fi _.
+q

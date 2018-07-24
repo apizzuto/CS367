@@ -1,0 +1,184 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{titlesec}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage[margin=1in]{geometry}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{varioref}
+\usepackage{fancyref}
+\usepackage{float}
+\floatstyle{boxed}
+\restylefloat{figure}
+\usepackage{framed}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{listings}
+\usepackage{color}
+
+\titleformat{\subsection}[runin]
+  {\normalfont\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}[runin]
+  {\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Script R%
+\usepackage{calligra}
+\usepackage{qtree}
+\DeclareMathAlphabet{\mathcalligra}{T1}{calligra}{m}{n}
+\DeclareFontShape{T1}{calligra}{m}{n}{<->s*[2.2]callig15}{}
+\newcommand{\scripty}[1]{\ensuremath{\mathcalligra{#1}}}
+\newcommand{\sr}{\scripty{r}}
+\newcommand{\vsr}{\vec{\sr\,}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Macros%
+\newcommand{\dint}[2]{\int\limits_{#1}^{#2}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\author{Alex Pizzuto}
+\title{CS 367 Homework 3}
+\begin{document}
+\date{}
+\maketitle
+\hrule
+
+\section{Question One}
+We assume that general trees are implemented using a \texttt{Treenode} class that includes the following fields and methods:
+\begin{lstlisting}
+	// fields
+	private T data;
+	private List<Treenode<T>> children;
+ 
+	// methods
+	public T getData() { return data; }
+	public List<Treenode<T>> getChildren() { return children; }
+\end{lstlisting}
+With this, we will write a method, \texttt{isBinary}, with the following header:
+\begin{lstlisting}
+	public boolean isBinary( Treenode<T> n )
+\end{lstlisting}
+that will determine if the general tree rooted by \texttt{n} is also a binary tree. Our method is as follows:
+\begin{lstlisting}
+	public boolean isBinary( Treenode<T> n ) {
+		//First, we define a base case
+		boolean value = true;
+		if (n.getChildren.size() == 0 ) {
+			return value;
+		}
+		if (n.getChildren.size() > 2 ) {
+			return false;
+		}
+		Iterator<T> itrt = n.getChildren.iterator();
+		while (itrt.hasNext() ) {
+			value = value && isBinary(itrt.next());
+		}
+		return value;
+	}	
+\end{lstlisting}
+
+
+\section{Question Two}
+Next, we write the \texttt{findNegatives} method for a binary tree implemented using a \texttt{BinaryTreenode} class with the following header:
+\begin{lstlisting}
+	public static List<Integer> findNegatives( BinaryTreenode<Integer> n)
+\end{lstlisting}
+Our method will return a list containing all the negative values in a binary tree containing \texttt{Integer} data. First, we establish the rules for recursion of this function:
+\begin{itemize}
+	\item The list of negative values in an empty tree is the empty list.
+	\item The list of negative values in a tree with one node is a list containing the node's data if the node's data is negative
+	\item The list of negative values in a tree with more than one node is the concatenation of lists of the negative values in each subtree rooted by the node's children.
+\end{itemize}
+
+With this, we can write the method (assuming an \texttt{ArrayList} implementation of a \texttt{List}).
+\begin{lstlisting}
+	public static List<Integer> findNegatives( BinaryTreenode<Integer> n) { 
+		List<Integer> negs = new ArrayList<Integer>();
+		if (n.getData() instanceof Integer && n.getData() < 0 ) {
+			negs.add(n.getData());
+		}
+		if(n.getLeft() != null) {
+			negs.addAll(findNegatives(n.getLeft()));
+		}
+		if(n.getRight() != null ) {
+			negs.addAll(findNegatives(n.getRight()));
+		}
+		return negs;	
+	}
+\end{lstlisting}
+
+
+\section{Question Three}
+We assume that binary search trees are implemented using a BSTnode class that includes the following fields and methods:
+\begin{lstlisting}
+// fields
+private K key;
+private BSTnode<K> left, right;
+ 
+// methods
+public K getKey() { return key; }
+public BSTnode<K> getLeft()  { return left; }
+public BSTnode<K> getRight() { return right; }
+public void setLeft(BSTnode<K> newL)  { left  = newL; }
+public void setRight(BSTnode<K> newR) { right = newR; }
+\end{lstlisting}
+where K is a class that implements the \texttt{Comparable} interface. With this, we write the \texttt{secondSmallest} method:
+\begin{lstlisting}
+	public K secondSmallest(BSTnode<K> n) {
+		BSTnode<K> tmp;
+		while(n.getLeft() != null ) {
+			if(n.getLeft().getLeft != null ){
+				n = n.getLeft(); //If there are more grandchildren, move down the tree
+			}else if(n.getLeft().getRight() == null ) {
+				return n; 
+				//If both the left and right child of the left child are null,
+				//then return the parent
+			} else if (n.getLeft().getRight() != null) {
+				n = n.getLeft().getRight();
+				while(n.getLeft() != null ) {
+					n = n.getLeft();
+				}
+				return n;
+				//If the left child of the left child is null, but the left child
+				//has a right child, return the smallest value of the tree
+				//rooted by the right child of the left child
+			}
+		}
+	}
+\end{lstlisting}
+
+
+
+
+
+
+
+
+
+
+\end{document}

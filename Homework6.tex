@@ -1,0 +1,148 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{titlesec}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage[margin=1in]{geometry}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{tikz-3dplot}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{varioref}
+\usepackage{fancyref}
+\usepackage{float}
+\floatstyle{boxed}
+\restylefloat{figure}
+\usepackage{framed}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{listings}
+\usepackage{color}
+
+\titleformat{\subsection}[runin]
+  {\normalfont\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}[runin]
+  {\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Script R%
+\usepackage{calligra}
+\usepackage{qtree}
+\DeclareMathAlphabet{\mathcalligra}{T1}{calligra}{m}{n}
+\DeclareFontShape{T1}{calligra}{m}{n}{<->s*[2.2]callig15}{}
+\newcommand{\scripty}[1]{\ensuremath{\mathcalligra{#1}}}
+\newcommand{\sr}{\scripty{r}}
+\newcommand{\vsr}{\vec{\sr\,}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Macros%
+\newcommand{\dint}[2]{\int\limits_{#1}^{#2}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\author{Alex Pizzuto}
+\title{CS 367 Homework 6}
+\begin{document}
+\date{}
+\maketitle
+\hrule
+
+\section{Question One}
+We are given the following incomplete definition of the \texttt{Graphnode} class:
+\begin{lstlisting}
+class Graphnode<T> {
+ 
+    private boolean visitMark;
+    private List<Graphnode<T>> successors;
+ 
+    public boolean getVisitMark() {
+        return visitMark;
+    }
+ 
+    public void setVisitMark(boolean mark) {
+        visitMark = mark;
+    }
+ 
+    public List<Graphnode<T>> getSuccessors() {
+        return successors;
+    }
+}
+\end{lstlisting}
+And we write the \texttt{hasSelfCycle} method:
+\begin{lstlisting}
+public boolean hasSelfCycle( Graphnode<T> node ) {
+	return hasSelfCycle(node, node);
+}
+
+public boolean hasSelfCycle(Graphnode<T> node, Graphnode<T> dest) {
+	node.setVisitMark(true);
+	
+	for(Graphnode<t> i : node.getSuccessors()) {
+		if (i == dest) {
+			return true;
+		} else if (!i.getVisitMark()) {
+			if(hasSelfCycle(i, dest) {
+				return true; //Check to see if successor leads back to dest
+			}
+		}
+	}
+	return false; //If we make it here, return false
+}
+\end{lstlisting}
+
+\section{Question Two}
+
+We trace Dijkstra's algorithm on the provided graph. 
+
+
+
+\begin{table}[h]
+	\begin{center}
+		\begin{tabular}{|c|c|} \hline
+	\shortstack{visited nodes and their \\ shortest distances from start} & \shortstack{dist values for nodes in U \\(only finite values, listed in increasing order)} \\ \hline \hline
+	- & (0,S) \\ \hline
+	S: 0 & (4,G), (11,H), (33,P) \\ \hline
+	S: 0, G: 4 & (10,R), (11,H), (11,P)  \\ \hline
+	S: 0, G: 4, R: 10 & (11,H), (11,P), (30,A) \\ \hline
+	S: 0, G: 4, R: 10, H: 11 & (11,P), (30,A) \\ \hline
+	S: 0, G: 4, R: 10, H: 11, P: 11 & (13,A) \\ \hline
+	S: 0, G: 4, R: 10, H: 11, P: 11, A: 13 & empty \\ \hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+
+\section{Question Three}
+Our three topological orderings are:
+\begin{itemize}
+	\item A E B F C D
+	\item C B D F E A
+	\item C A D B E F
+\end{itemize}
+
+
+
+
+\end{document}
